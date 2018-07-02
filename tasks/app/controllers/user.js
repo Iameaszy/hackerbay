@@ -1,10 +1,8 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const usermodel = require('./../models/user');
 
 const router = express.Router();
-const { UserModel } = usermodel;
 
 module.exports = (app) => {
   app.use('/user', router);

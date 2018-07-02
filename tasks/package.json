@@ -11,7 +11,7 @@
     "test:integration": "mocha --recursive test/integration"
   },
   "dependencies": {
-    "bcrypt": "^2.0.0",
+    "bcrypt": "^2.0.1",
     "bluebird": "^3.5.1",
     "body-parser": "^1.13.3",
     "chalk": "^2.4.1",
@@ -40,12 +40,13 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "chai-http": "^4.0.0",
     "debug": "^2.2.0",
     "gulp": "^3.9.0",
-    "gulp-sass": "^3.0.0",
-    "gulp-nodemon": "^2.0.2",
     "gulp-livereload": "^3.8.0",
+    "gulp-nodemon": "^2.0.2",
     "gulp-plumber": "^1.0.0",
+    "gulp-sass": "^3.0.0",
     "mocha": "^4.0.1",
     "nyc": "^10.0.0",
     "supertest": "^2.0.0"

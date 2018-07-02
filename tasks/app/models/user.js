@@ -1,5 +1,6 @@
-const { db } = require('../../config/db/psql.js');
 const bcrypt = require('bcrypt');
+
+const { db } = require('../../config/db/psql.js');
 
 const { sequelize, Sequelize } = db;
 
@@ -41,7 +42,7 @@ UserModel.beforeCreate((user) => {
     });
   });
 });
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync().then(() => {
   console.log('database and table created');
 });
-exports.UserModel = UserModel;
+module.exports.UserModel = UserModel;
