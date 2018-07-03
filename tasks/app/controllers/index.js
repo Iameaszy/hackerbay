@@ -13,9 +13,17 @@ router.get('/', (req, res) => {
 
 router.post('/data', (req, res) => {
   ({ data } = req.body);
-  res.json({ data });
+  if (!data) {
+    res.status(400).end();
+  } else {
+    res.json({ data });
+  }
 });
 
 router.get('/data', (req, res) => {
-  res.json(data);
+  if (data) {
+    res.json(data);
+  } else {
+    res.status(400).end();
+  }
 });

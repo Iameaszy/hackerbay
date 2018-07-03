@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-
+const { DB_PASS } = process.env;
 const sequelize = new Sequelize('postgres', 'postgres', '(62337087)', {
   host: 'localhost',
   dialect: 'postgres',
