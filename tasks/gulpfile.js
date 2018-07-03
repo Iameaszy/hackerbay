@@ -5,7 +5,8 @@ const livereload = require('gulp-livereload');
 const sass = require('gulp-sass');
 
 gulp.task('sass', () => {
-  gulp.src('./public/css/*.scss')
+  gulp
+    .src('./public/css/*.scss')
     .pipe(plumber())
     .pipe(sass())
     .pipe(gulp.dest('./public/css'))
@@ -21,8 +22,8 @@ gulp.task('develop', () => {
   nodemon({
     script: 'app.js',
     ext: 'js coffee handlebars',
-    stdout: false
-  }).on('readable', function () {
+    stdout: false,
+  }).on('readable', function() {
     this.stdout.on('data', (chunk) => {
       if (/^Express server listening on port/.test(chunk)) {
         livereload.changed(__dirname);
@@ -33,8 +34,4 @@ gulp.task('develop', () => {
   });
 });
 
-gulp.task('default', [
-  'sass',
-  'develop',
-  'watch'
-]);
+gulp.task('default', ['sass', 'develop', 'watch']);

@@ -1,8 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const user = require('../../app/models/user');
-
-const { UserModel } = user;
+const { UserModel } = require('../../app/models/user');
 
 passport.use(
   'user-login',
@@ -12,25 +10,30 @@ passport.use(
       passwordField: 'password',
     },
     async (email, password, done) => {
+      if (!verifyEmail(email)) {
+        return done(null, false, { message: 'Invalid email' });
+      }
+      let user;
       try {
-        const user = await UserModel.findOne({ where: { email } });
-        if (!user) {
-          return done(null, false, {
-            message: 'User does not exist',
-          });
-        }
-        const stat = await user.comparePassword(password);
-        if (stat) {
-          done(null, user, {
-            message: 'Successful login',
-          });
-        } else {
-          done(null, false, {
-            message: 'Invalid Password',
-          });
-        }
-      } catch (err) {
-        done(err);
+        user = await UserModel.findOne({ where: { email } });
+      } catch (e) {
+        return done(e);
+      }
+
+      if (!user) {
+        return done(null, false, {
+          message: 'User does not exist',
+        });
+      }
+      const stat = await user.comparePassword(password);
+      if (stat) {
+        done(null, user, {
+          message: 'Successful login',
+        });
+      } else {
+        done(null, false, {
+          message: 'Invalid Password',
+        });
       }
     },
   ),
@@ -44,19 +47,33 @@ passport.use(
       passwordField: 'password',
     },
     async (email, password, done) => {
+      if (!verifyEmail(email)) {
+        return done(null, false, { message: 'Invalid email' });
+      }
+      let user;
       try {
-        const user = await UserModel.findOne({ where: { email } });
-        if (user) {
-          done(null, false, { message: 'User already exists' });
-        }
-        if (!user) {
-          const newUser = await UserModel.create({ email, password });
-          return done(null, newUser, { message: 'User created successfully' });
-        }
+        user = await UserModel.findOne({ where: { email } });
       } catch (err) {
-        console.log(err);
         done(err);
+      }
+      if (user) {
+        done(null, false, { message: 'User already exists' });
+      }
+      if (!user) {
+        const newUserBuild = UserModel.build({ email, password });
+        let newUser;
+        try {
+          newUser = await newUserBuild.save();
+        } catch (e) {
+          done(e);
+        }
+        return done(null, newUser, { message: 'User created successfully' });
       }
     },
   ),
 );
+
+function verifyEmail(email) {
+  const regex = /^[a-z]\w{2,}@[a-z]{2,}\.([a-z]{1,4}|[a-z]{2,}\.[a-z]{1,4})[a-z]$/i;
+  return regex.test(email);
+}
