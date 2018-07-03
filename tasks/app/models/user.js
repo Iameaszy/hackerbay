@@ -4,19 +4,30 @@ const { db } = require('../../config/db/psql.js');
 
 const { sequelize, Sequelize } = db;
 
-const UserModel = sequelize.define('user', {
-  email: {
-    type: Sequelize.STRING,
-    unique: true,
-    allowNull: true,
-    validate: {
-      isEmail: true,
+const UserModel = sequelize.define(
+  'user',
+  {
+    email: {
+      type: Sequelize.STRING,
+      unique: true,
+      allowNull: true,
+      validate: {
+        isEmail: true,
+      },
+    },
+    password: {
+      type: Sequelize.STRING,
     },
   },
-  password: {
-    type: Sequelize.STRING,
-  },
-});
+  {},
+);
+
+UserModel.prototype.toJSON = function doSomething() {
+  const values = Object.assign({}, this.get());
+
+  delete values.password;
+  return values;
+};
 
 function comparePassword(pass) {
   const user = this;

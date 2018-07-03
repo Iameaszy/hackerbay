@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "NODE_ENV=test mocha --recursive test",
+    "test": "mocha --timeout 10000 --recursive -w",
     "test:coverage": "nyc npm test",
     "test:unit": "mocha --recursive test/middleware test/models test/routes",
     "test:integration": "mocha --recursive test/integration"
@@ -24,6 +24,7 @@
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
     "glob": "^6.0.4",
+    "gulp-mocha": "^6.0.0",
     "jsonwebtoken": "^8.2.1",
     "method-override": "^2.3.0",
     "morgan": "^1.6.1",

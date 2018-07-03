@@ -16,9 +16,10 @@ router.post('/signup', (req, res, next) => {
     if (user) {
       const payload = { email: user.email, id: user.id };
       const token = jwt.sign(payload, 'my secret');
-      return res.json({ session: token });
+      res.json({ session: token });
+    } else {
+      res.status(400).json({ error: info.message });
     }
-    res.status(400).json({ error: info.message });
   })(req, res, next);
 });
 
