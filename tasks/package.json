@@ -5,11 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-<<<<<<< HEAD
     "test": "./node_modules/.bin/mocha --timeout 10000 --recursive",
-=======
-    "test": "./node_modules/.bin/mocha --timeout 10000 --recursive -w",
->>>>>>> a841ddc921e328f41c23b356c819a3d8c0183507
     "test:coverage": "nyc npm test",
     "test:unit": "mocha --recursive test/middleware test/models test/routes",
     "test:integration": "mocha --recursive test/integration"
