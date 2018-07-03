@@ -1,2 +1,6 @@
 tasks/node_modules/
 tasks/.env
+tasks/.nyc_output
+tasks/coverage
+coverage
+.nyc_output
