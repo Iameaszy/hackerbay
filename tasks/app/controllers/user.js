@@ -18,7 +18,7 @@ router.post('/signup', (req, res, next) => {
       const token = jwt.sign(payload, 'my secret');
       res.json({ session: token });
     } else {
-      res.status(400).json({ error: info.message });
+      res.status(400).send({ error: info.message });
     }
   })(req, res, next);
 });
@@ -32,7 +32,8 @@ router.post('/login', (req, res, next) => {
       const payload = { email: user.email, id: user.id };
       const token = jwt.sign(payload, 'my secret');
       return res.json({ session: token });
+    } else {
+      res.status(400).send({ error: info.message });
     }
-    res.status(400).json({ error: info.message });
   })(req, res, next);
 });

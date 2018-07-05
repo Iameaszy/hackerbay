@@ -54,10 +54,10 @@ passport.use(
       try {
         user = await UserModel.findOne({ where: { email } });
       } catch (err) {
-        done(err);
+        return done(err);
       }
       if (user) {
-        done(null, false, { message: 'User already exists' });
+        return done(null, false, { message: 'User already exists' });
       }
       if (!user) {
         const newUserBuild = UserModel.build({ email, password });
@@ -65,7 +65,7 @@ passport.use(
         try {
           newUser = await newUserBuild.save();
         } catch (e) {
-          done(e);
+          return done(e);
         }
         return done(null, newUser, { message: 'User created successfully' });
       }
