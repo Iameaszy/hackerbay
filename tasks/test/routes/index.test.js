@@ -84,32 +84,35 @@ describe('post /data', () => {
 });
 
 describe('get /data', () => {
-  it('should reply with 200 status code', async function dataValid() {
-    let res;
-    try {
-      res = await chai.request(app.app).get('/data');
-    } catch (e) {
-      throw e;
-    }
-
-    if (res && res.body && res.body.data) {
-      expect(res.status).to.equals(200);
-    } else {
-      this.skip();
-    }
+  describe('data not yet available', () => {
+    it('should reply with 400 status code', async () => {
+      try {
+        await chai.request(app.app).get('/data');
+      } catch (e) {
+        throw e;
+      }
+    });
   });
-  it('should reply with 400 status code', async function dataInvalid() {
-    let res;
-    try {
-      res = await chai.request(app.app).get('/data');
-    } catch (e) {
-      throw e;
-    }
-
-    if (!(res && res.body && res.body.data)) {
-      expect(res.status).to.equals(400);
-    } else {
-      this.skip();
-    }
+  describe('data available', () => {
+    before(async () => {
+      try {
+        await chai
+          .request(app.app)
+          .post('/data')
+          .type('form')
+          .send({ data: 'Any string' });
+      } catch (e) {
+        return console.log(e);
+      }
+    });
+    it('should reply with 200 status code', async () => {
+      let res;
+      try {
+        res = await chai.request(app.app).get('/data');
+      } catch (e) {
+        throw e;
+      }
+      expect(res.status).to.equals(200);
+    });
   });
 });

@@ -56,4 +56,4 @@ UserModel.beforeCreate((user) => {
 sequelize.sync().then(() => {
   console.log('database and table created');
 });
-module.exports.UserModel = UserModel;
+module.exports = { UserModel, sequelize };

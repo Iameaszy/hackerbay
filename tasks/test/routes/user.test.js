@@ -1,13 +1,14 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('./../../app');
-const { UserModel } = require('../../app/models/user');
+const { UserModel, sequelize } = require('../../app/models/user');
 
 const { expect } = chai;
 chai.use(chaiHttp);
 
 after(() => {
   app.server.close();
+  sequelize.close();
 });
 
 describe('/user/signup', () => {
