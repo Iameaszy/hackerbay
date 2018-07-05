@@ -6,10 +6,6 @@ const app = require('./../../app');
 const { expect } = chai;
 chai.use(chaiHttp);
 
-after(() => {
-  app.server.close();
-});
-
 describe('get /', () => {
   it('should have 200 response status', async () => {
     let res;

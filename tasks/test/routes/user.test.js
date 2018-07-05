@@ -10,6 +10,9 @@ after(() => {
   app.server.close();
   sequelize.close();
 });
+beforeEach((done) => {
+  setTimeout(() => done(), 500);
+});
 
 describe('/user/signup', () => {
   before((done) => {
@@ -23,7 +26,7 @@ describe('/user/signup', () => {
   });
 });
 
-it('should reply with 200 status code', (done)=> {
+it('should reply with 200 status code', (done) => {
   chai
     .request(app.app)
     .post('/user/signup')
@@ -31,13 +34,13 @@ it('should reply with 200 status code', (done)=> {
     .send({ email: 'easyclick05@gmail.com', password: 'abcdefgh' })
     .end((err, res) => {
       expect(err).to.be.null;
-        expect(res.status).to.equals(200);
-        expect(res.body.session).to.be.a('string');
+      expect(res.status).to.equals(200);
+      expect(res.body.session).to.be.a('string');
       done();
     });
 });
 
-it('should reply with 400 status code',(done)=> {
+it('should reply with 400 status code', (done) => {
   chai
     .request(app.app)
     .post('/user/signup')
@@ -45,10 +48,10 @@ it('should reply with 400 status code',(done)=> {
     .send({ email: 'easyclick05@gmail.com', password: 'abcdefgh' })
     .end((err, res) => {
       expect(err).to.be.null;
-        expect(res.status).to.equals(400);
-        expect(res.body)
-          .to.have.property('error')
-          .to.equal('User already exists');
+      expect(res.status).to.equals(400);
+      expect(res.body)
+        .to.have.property('error')
+        .to.equal('User already exists');
       done();
     });
 });
