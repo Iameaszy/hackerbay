@@ -8,12 +8,11 @@ chai.use(chaiHttp);
 
 after(() => {
   app.server.close();
-  // close the database
   sequelize.close();
 });
 
 describe('/user/signup', () => {
-  beforeEach((done) => {
+  before((done) => {
     UserModel.destroy({ where: {} })
       .then((data) => {
         done();
@@ -24,7 +23,7 @@ describe('/user/signup', () => {
   });
 });
 
-it('should reply with 200 status code', function createUser(done) {
+it('should reply with 200 status code', (done)=> {
   chai
     .request(app.app)
     .post('/user/signup')
@@ -32,17 +31,13 @@ it('should reply with 200 status code', function createUser(done) {
     .send({ email: 'easyclick05@gmail.com', password: 'abcdefgh' })
     .end((err, res) => {
       expect(err).to.be.null;
-      if (res.body.session) {
         expect(res.status).to.equals(200);
         expect(res.body.session).to.be.a('string');
-      } else {
-        this.skip();
-      }
       done();
     });
 });
 
-it('should reply with 400 status code', function userExist(done) {
+it('should reply with 400 status code',(done)=> {
   chai
     .request(app.app)
     .post('/user/signup')
@@ -50,14 +45,10 @@ it('should reply with 400 status code', function userExist(done) {
     .send({ email: 'easyclick05@gmail.com', password: 'abcdefgh' })
     .end((err, res) => {
       expect(err).to.be.null;
-      if (res.body.error) {
         expect(res.status).to.equals(400);
         expect(res.body)
           .to.have.property('error')
           .to.equal('User already exists');
-      } else {
-        this.skip();
-      }
       done();
     });
 });
