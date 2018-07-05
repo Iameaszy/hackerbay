@@ -8,6 +8,7 @@ chai.use(chaiHttp);
 
 after(() => {
   app.server.close();
+  // close the database
   sequelize.close();
 });
 
