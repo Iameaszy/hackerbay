@@ -3,5 +3,8 @@ language: node_js
 sudo: false
 node_js:
   - "lts/*"
+install:
+  - npm install -g codecov
 script:
-   npm run test:coverage
+  - nyc ./node_modules/mocha/bin/_mocha --timeout 10000 --recursive --reporter lcovonly -- -R spec
+  - codecov
