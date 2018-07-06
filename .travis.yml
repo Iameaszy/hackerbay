@@ -1,6 +1,12 @@
 before_install: cd tasks
 language: node_js
-sudo: true
+node_js:
+  - 8.11.3
+dist: trusty
+cache:
+  directories:
+    -node_modules
+sudo: false
 node_js:
   - "lts/*"
 install:
