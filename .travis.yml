@@ -6,5 +6,5 @@ node_js:
 install:
   - npm install -g codecov
 script:
-  - nyc ./node_modules/mocha/bin/_mocha --timeout 10000 --recursive --reporter lcovonly -- -R spec
-  - codecov
+  - npm run test
+  - npm run test:coverage
