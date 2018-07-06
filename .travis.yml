@@ -6,6 +6,6 @@ node_js:
   - "lts/*"
 install:
   - npm install -g codecov
-  - npm nyc -g codecov
+  - npm install -g nyc
 after_sucesss:
   - npm run coverage
