@@ -1,9 +1,11 @@
 before_install: cd tasks
+before_script: cd tasks
 language: node_js
 sudo: false
 node_js:
   - "lts/*"
 install:
   - npm install -g codecov
+  - npm nyc -g codecov
 after_sucesss:
   - npm run coverage
