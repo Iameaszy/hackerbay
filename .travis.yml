@@ -4,5 +4,4 @@ sudo: false
 node_js:
   - "lts/*"
 script:
-   npm test
    npm run test:coverage
