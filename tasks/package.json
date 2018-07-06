@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "nyc node_modules/mocha/bin/_mocha --timeout 10000 --recursive",
-    "test:coverage": "nyc  report --reporter=text-lcov > coverage.lcov && codecov",
+    "test": "nyc node_modules/mocha/bin/mocha --timeout 10000 --recursive",
+    "test:coverage": "nyc  report --reporter=text-lcov > coverage.lcov && codecov -t b004bebb-a06d-46ba-9714-6b40f2d478bf",
     "test:unit": "mocha --recursive test/middleware test/models test/routes",
     "test:integration": "mocha --recursive test/integration"
   },

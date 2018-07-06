@@ -2,5 +2,6 @@ tasks/node_modules/
 tasks/.env
 tasks/.nyc_output
 tasks/coverage
+tasks/*.lcov
 coverage
 .nyc_output
