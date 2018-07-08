@@ -5,19 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "istanbul cover mocha ./test/ --timeout 10000 --recursive ",
-    "cover": "istanbul cover _mocha",
-    "coverage": "npm run cover --report lcovonly -- -R spec && codecov -t b004bebb-a06d-46ba-9714-6b40f2d478bf",
+    "test": "nyc ./node_modules/mocha/bin/_mocha --timeout 10000 --recursive ",
+    "coverage": "nyc --report --reporter=test-lcov > coverage.lcov && codecov -t b004bebb-a06d-46ba-9714-6b40f2d478bf",
     "test:unit": "mocha --recursive test/middleware test/models test/routes",
     "test:integration": "mocha --recursive test/integration"
-  },
-  "config": {
-    "blanket": {
-      "pattern": "test",
-      "data-cover-flags": {
-        "debug": true
-      }
-    }
   },
   "dependencies": {
     "bcrypt": "^2.0.1",

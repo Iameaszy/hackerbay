@@ -2,6 +2,9 @@ before_install:
    - cd tasks
    - npm install -g npm
 language: node_js
+env:
+  global:
+    - NODE_ENV=development
 node_js:
   - 8.11.3
 sudo: false
@@ -9,7 +12,5 @@ node_js:
   - "lts/*"
 install:
   - npm install -g codecov
-  - npm install -g istanbul
-  - npm install -g mocha
 after_sucess:
   - npm run coverage
