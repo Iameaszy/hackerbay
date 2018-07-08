@@ -1,4 +1,3 @@
-os: windows
 before_install: 
    - cd tasks
    - npm install -g npm
