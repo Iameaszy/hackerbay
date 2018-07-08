@@ -5,10 +5,8 @@ node_js:
 cache:
   directories:
     -node_modules
-sudo: required
+sudo: false
 node_js:
   - "lts/*"
 install:
   - npm install -g codecov
-after_sucesss:
-  - npm run coverage

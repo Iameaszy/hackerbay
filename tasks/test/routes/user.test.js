@@ -24,36 +24,36 @@ describe('/user/signup', () => {
         done(e);
       });
   });
-});
 
-it('should reply with 200 status code', (done) => {
-  chai
-    .request(app.app)
-    .post('/user/signup')
-    .type('form')
-    .send({ email: 'easyclick05@gmail.com', password: 'abcdefgh' })
-    .end((err, res) => {
-      expect(err).to.be.null;
-      expect(res.status).to.equals(200);
-      expect(res.body.session).to.be.a('string');
-      done();
-    });
-});
+  it('should reply with 200 status code', (done) => {
+    chai
+      .request(app.app)
+      .post('/user/signup')
+      .type('form')
+      .send({ email: 'easyclick05@gmail.com', password: 'abcdefgh' })
+      .end((err, res) => {
+        expect(err).to.be.null;
+        expect(res.status).to.equals(200);
+        expect(res.body.session).to.be.a('string');
+        done();
+      });
+  });
 
-it('should reply with 400 status code', (done) => {
-  chai
-    .request(app.app)
-    .post('/user/signup')
-    .type('form')
-    .send({ email: 'easyclick05@gmail.com', password: 'abcdefgh' })
-    .end((err, res) => {
-      expect(err).to.be.null;
-      expect(res.status).to.equals(400);
-      expect(res.body)
-        .to.have.property('error')
-        .to.equal('User already exists');
-      done();
-    });
+  it('should reply with 400 status code', (done) => {
+    chai
+      .request(app.app)
+      .post('/user/signup')
+      .type('form')
+      .send({ email: 'easyclick05@gmail.com', password: 'abcdefgh' })
+      .end((err, res) => {
+        expect(err).to.be.null;
+        expect(res.status).to.equals(400);
+        expect(res.body)
+          .to.have.property('error')
+          .to.equal('User already exists');
+        done();
+      });
+  });
 });
 
 describe('/user/signup with invalid data', () => {
@@ -115,11 +115,9 @@ describe('/user/login', () => {
       .post('/user/signup')
       .type('form')
       .send({ email: 'easyclick05@gmail.com', password: 'abcdefgh' })
-      .end((err, res) => {
-        if (err) {
-          done(err);
-        }
-        done();
+      .then(() => done())
+      .catch((err) => {
+        done(err);
       });
   });
   after((done) => {
