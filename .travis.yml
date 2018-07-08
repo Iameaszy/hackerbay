@@ -12,5 +12,7 @@ node_js:
   - "lts/*"
 install:
   - npm install -g codecov
+  - npm install -g nyc
+  - npm install -g mocha
 after_sucess:
   - npm run coverage
