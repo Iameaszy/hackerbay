@@ -1,8 +1,6 @@
 before_install: 
    - cd tasks
    - npm install -g npm
-script:
-  - cd tasks
 language: node_js
 env:
   global:
