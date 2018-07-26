@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
+const { SECRET } = process.env;
 const router = express.Router();
 
 module.exports = (app) => {
@@ -15,7 +16,7 @@ router.post('/signup', (req, res, next) => {
     }
     if (user) {
       const payload = { email: user.email, id: user.id };
-      const token = jwt.sign(payload, 'my secret');
+      const token = jwt.sign(payload, SECRET);
       res.json({ session: token });
     } else {
       res.status(400).send({ error: info.message });
@@ -30,8 +31,8 @@ router.post('/login', (req, res, next) => {
     }
     if (user) {
       const payload = { email: user.email, id: user.id };
-      const token = jwt.sign(payload, 'my secret');
-      return res.json({ session: token });
+      const token = jwt.sign(payload, SECRET);
+      res.json({ session: token });
     } else {
       res.status(400).send({ error: info.message });
     }

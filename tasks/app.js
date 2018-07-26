@@ -1,8 +1,8 @@
 const express = require('express');
 const config = require('./config/db/config');
-const glob = require('glob');
 
 const app = express();
+require('dotenv').config();
 require('./config/express')(app, config);
 
 const server = app.listen(config.port, () => {

@@ -60,8 +60,8 @@ passport.use(
         return done(null, false, { message: 'User already exists' });
       }
       if (!user) {
-        const newUserBuild = UserModel.build({ email, password });
         let newUser;
+        const newUserBuild = UserModel.build({ email, password });
         try {
           newUser = await newUserBuild.save();
         } catch (e) {

@@ -48,9 +48,8 @@ module.exports = (app, config) => {
   app.use(methodOverride());
   app.use(
     cors({
-      origin: 'http://localhost:4200',
-      credentials: true,
-    }),
+      origin:'http://localhost:3001'
+    })
   );
   app.use(
     session({

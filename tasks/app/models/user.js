@@ -5,12 +5,12 @@ const { db } = require('../../config/db/psql.js');
 const { sequelize, Sequelize } = db;
 
 const UserModel = sequelize.define(
-  'user',
+  'users',
   {
     email: {
       type: Sequelize.STRING,
       unique: true,
-      allowNull: true,
+      allowNull: false,
       validate: {
         isEmail: true,
       },
@@ -42,8 +42,7 @@ function comparePassword(pass) {
   });
 }
 UserModel.prototype.comparePassword = comparePassword;
-UserModel.beforeCreate((user) => {
-  return new Promise((resolve, reject) => {
+UserModel.beforeCreate((user) => new Promise((resolve, reject) => {
     bcrypt.hash(user.password, 15, (err, hash) => {
       if (err) {
         reject(err);
@@ -51,8 +50,7 @@ UserModel.beforeCreate((user) => {
       user.password = hash;
       resolve(true);
     });
-  });
-});
+  }));
 sequelize.sync().then(() => {
   console.log('database and table created');
 });
