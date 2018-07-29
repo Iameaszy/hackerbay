@@ -1,10 +1,9 @@
-const { UserModel } = require('./user');
-const { db } = require('../../config/db/psql.js');
+const Sequelize = require('sequelize');
+const { sequelize } = require('../../config/db/psql.js');
 
-const { sequelize, Sequelize } = db;
 
 const WebsiteModel = sequelize.define(
-  'websites',
+  'website',
   {
     name: {
       type: Sequelize.STRING,
@@ -18,37 +17,18 @@ const WebsiteModel = sequelize.define(
     },
     status: {
       type: Sequelize.STRING,
-      unique: true,
       allowNull: false,
       defaultValue: 'online',
     },
     userId: {
       type: Sequelize.INTEGER,
       references: {
-        model: 'user',
+        model: 'users',
         key: 'id',
       },
     },
   },
-  {},
 );
-/*
-WebsiteModel.prototype.toJSON = function doSomething() {
-  const values = Object.assign({}, this.get());
 
-  delete values.password;
-  return values;
-};
-*/
 
-sequelize
-  .sync()
-  .then(() => {
-    console.log('website table created');
-  })
-  .catch(() => console.log('an error occurred while creating website table'));
-
-module.exports = {
-  WebsiteModel,
-  sequelize,
-};
+module.exports = { WebsiteModel };

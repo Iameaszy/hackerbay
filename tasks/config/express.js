@@ -48,8 +48,8 @@ module.exports = (app, config) => {
   app.use(methodOverride());
   app.use(
     cors({
-      origin:'http://localhost:3001'
-    })
+      origin: 'http://localhost:3001',
+    }),
   );
   app.use(
     session({
@@ -79,22 +79,9 @@ module.exports = (app, config) => {
   if (app.get('env') === 'development') {
     app.use((err, req, res, next) => {
       res.status(err.status || 500);
-      res.render('error', {
-        message: err.message,
-        error: err,
-        title: 'error',
-      });
+      console.log(err);
+      res.send({ error: 'Server error' });
     });
   }
-
-  app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: {},
-      title: 'error',
-    });
-  });
-
   return app;
 };

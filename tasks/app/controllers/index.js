@@ -10,7 +10,6 @@ module.exports = (app) => {
 router.get('/', (req, res) => {
   res.json({ status: 'success' });
 });
-
 router.post('/data', (req, res) => {
   ({ data } = req.body);
   if (!data) {

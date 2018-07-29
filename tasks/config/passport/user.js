@@ -1,6 +1,24 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const { UserModel } = require('../../app/models/user');
+const { ExtractJwt, Strategy: JwtStrategy } = require('passport-jwt');
+const { UserModel } = require('../../app/models/index');
+
+const { SECRET } = process.env;
+
+const opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = SECRET;
+
+
+passport.use(new JwtStrategy(opts, (payload, done) => {
+  UserModel.findOne({ where: { email: payload.email } }).then((user) => {
+    if (user) {
+      return done(null, user);
+    }
+    done(null, false, { message: 'Unauthorized Acesss' });
+  })
+    .catch(err => done(err));
+}));
 
 passport.use(
   'user-login',
@@ -9,7 +27,8 @@ passport.use(
       usernameField: 'email',
       passwordField: 'password',
     },
-    async (email, password, done) => {
+    async (reqEmail, password, done) => {
+      const email = reqEmail.toLowerCase();
       if (!verifyEmail(email)) {
         return done(null, false, { message: 'Invalid email' });
       }
@@ -46,7 +65,9 @@ passport.use(
       usernameField: 'email',
       passwordField: 'password',
     },
-    async (email, password, done) => {
+    async (reqEmail, password, done) => {
+      const email = reqEmail.toLowerCase();
+
       if (!verifyEmail(email)) {
         return done(null, false, { message: 'Invalid email' });
       }
