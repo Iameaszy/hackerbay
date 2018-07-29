@@ -3,8 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const { SECRET } = process.env;
 const router = express.Router();
-const { WebsiteModel } = require('../models/website');
-const { UserModel } = require('../models/user');
+const { WebsiteModel } = require('../models/index');
 
 module.exports = (app) => {
   app.use('/website', router);
@@ -19,7 +18,7 @@ router.use((req, res, next) => {
 router.get('/', async (req, res, next) => {
   let websites;
   try {
-    websites = await WebsiteModel.find({ where: {} });
+    websites = await WebsiteModel.findAll({ where: {} });
   } catch (e) {
     next(e);
     return console.log(e);
@@ -32,6 +31,9 @@ router.post('/', async (req, res, next) => {
   const { name, url } = req.body;
   if (!name || !url) {
     return res.status(400).end('Invlaid name and url');
+  }
+  if (!verifyUrl(url)) {
+    return res.status(400).send('Invlaid url');
   }
   let user;
   try {
@@ -64,15 +66,21 @@ router.post('/', async (req, res, next) => {
   }
 
   try {
-    website = await WebsiteModel.create({
+    website = await WebsiteModel.build({
       name,
       url,
       status: 'online',
     });
+    website = await website.save();
+    console.log('website saved');
   } catch (e) {
     next('unable to save website to the database');
     return console.log(e);
   }
-  console.log('webiste:', website);
   res.json(website);
 });
+
+function verifyUrl(url) {
+  const regex = /^(http:\/\/|https:\/\/)(www\.)*[a-zA-z0-9]/i;
+  return regex.test(url);
+}

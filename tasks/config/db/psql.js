@@ -1,9 +1,10 @@
 const Sequelize = require('sequelize');
+
 const { DB_PASS } = process.env;
 const sequelize = new Sequelize({
-  database:'postgres',
-  password:'(62337087)',
-  username:'postgres',
+  database: 'postgres',
+  password: DB_PASS,
+  username: 'postgres',
   host: 'localhost',
   dialect: 'postgres',
   operatorsAliases: true,
@@ -24,4 +25,4 @@ const start = () => {
     });
 };
 
-module.exports = { db: { sequelize, Sequelize }, start };
+module.exports = { sequelize, start };

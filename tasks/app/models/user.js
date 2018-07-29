@@ -1,11 +1,10 @@
 const bcrypt = require('bcrypt');
+const Sequelize = require('sequelize');
+const { sequelize } = require('../../config/db/psql.js');
 
-const { db } = require('../../config/db/psql.js');
-
-const { sequelize, Sequelize } = db;
 
 const UserModel = sequelize.define(
-  'users',
+  'user',
   {
     email: {
       type: Sequelize.STRING,
@@ -19,7 +18,6 @@ const UserModel = sequelize.define(
       type: Sequelize.STRING,
     },
   },
-  {},
 );
 
 UserModel.prototype.toJSON = function doSomething() {
@@ -42,7 +40,8 @@ function comparePassword(pass) {
   });
 }
 UserModel.prototype.comparePassword = comparePassword;
-UserModel.beforeCreate((user) => new Promise((resolve, reject) => {
+UserModel.beforeCreate(
+  user => new Promise((resolve, reject) => {
     bcrypt.hash(user.password, 15, (err, hash) => {
       if (err) {
         reject(err);
@@ -50,8 +49,7 @@ UserModel.beforeCreate((user) => new Promise((resolve, reject) => {
       user.password = hash;
       resolve(true);
     });
-  }));
-sequelize.sync().then(() => {
-  console.log('database and table created');
-});
-module.exports = { UserModel, sequelize };
+  }),
+);
+
+module.exports = { UserModel };
