@@ -1,5 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+<<<<<<< HEAD
 const { ExtractJwt, Strategy: JwtStrategy } = require('passport-jwt');
 const { UserModel } = require('../../app/models/index');
 
@@ -19,6 +20,9 @@ passport.use(new JwtStrategy(opts, (payload, done) => {
   })
     .catch(err => done(err));
 }));
+=======
+const { UserModel } = require('../../app/models/index');
+>>>>>>> 750a765eeb864670ad2986b1755be89ec359abb8
 
 passport.use(
   'user-login',

@@ -29,6 +29,11 @@ const WebsiteModel = sequelize.define(
     },
   },
 );
+<<<<<<< HEAD
 
 
+=======
+
+
+>>>>>>> 750a765eeb864670ad2986b1755be89ec359abb8
 module.exports = { WebsiteModel };
