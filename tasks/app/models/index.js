@@ -10,7 +10,7 @@ UserModel.hasMany(WebsiteModel, {
 WebsiteModel.belongsTo(UserModel, { foreignKey: 'userId' });
 
 
-sequelize.sync()
+sequelize.sync({ force: true })
   .then(() => {
     console.log('tables created  successfully');
   })

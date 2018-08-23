@@ -19,8 +19,6 @@ passport.use(new JwtStrategy(opts, (payload, done) => {
   })
     .catch(err => done(err));
 }));
-
-
 passport.use(
   'user-login',
   new LocalStrategy(
