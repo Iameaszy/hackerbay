@@ -1,8 +1,6 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
-const { SECRET } = process.env;
 const router = express.Router();
 const { WebsiteModel } = require('../models/index');
 
