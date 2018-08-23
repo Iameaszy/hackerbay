@@ -40,7 +40,11 @@ router.get('/', async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
   const { id } = req.params;
-
+  if (isNaN(+id)) {
+    return res.status(400).send({
+      error: 'invalid param value',
+    });
+  }
   try {
     await WebsiteModel.destroy({ where: { id } });
   } catch (err) {
@@ -52,7 +56,7 @@ router.delete('/:id', async (req, res, next) => {
 
 router.get('/:start', async (req, res, next) => {
   const { start } = req.params;
-  if (!start) {
+  if (isNaN(+start)) {
     return res.status(400).send({ error: 'invalid param value' });
   }
   let websites;

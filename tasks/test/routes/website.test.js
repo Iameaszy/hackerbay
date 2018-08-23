@@ -28,7 +28,7 @@ describe('/website', () => {
           url: 'http://easy.com',
         })
         .set({
-          Authorization: session,
+          Authorization: `Bearer ${session}`,
         })
         .type('form')
         .expect(200, done);
@@ -48,7 +48,7 @@ describe('/website', () => {
       request(app)
         .get('/website')
         .set({
-          Authorization: session,
+          Authorization: `Bearer ${session}`,
         })
         .end((err, res) => {
           if (err) return done(err);
@@ -59,12 +59,6 @@ describe('/website', () => {
     });
   });
   describe('GET /website', () => {
-    before((done) => {
-      UserModel.destroy({ where: {} })
-        .then(() => done())
-        .catch(e => done(e));
-    });
-
     beforeEach((done) => {
       WebsiteModel.destroy({
         where: {},
@@ -80,7 +74,10 @@ describe('/website', () => {
     it('should return 200 status code', (done) => {
       request(app)
         .get('/website')
-        .set({ Authorization: session })
+        .set({
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session}`,
+        })
         .expect(200, done);
     });
 
@@ -93,9 +90,13 @@ describe('/website', () => {
     it('should return array of data', (done) => {
       request(app)
         .get('/website')
-        .set({ Authorization: session })
+        .set({
+          Authorization: `Bearer ${session}`,
+        })
         .end((err, res) => {
-          if (err) return done(err);
+          if (err) {
+            return done(err);
+          }
 
           expect(res.body).to.be.an('array');
           done();
@@ -104,7 +105,9 @@ describe('/website', () => {
     it('should return empty array', (done) => {
       request(app)
         .get('/website')
-        .set({ Authorization: session })
+        .set({
+          Authorization: `Bearer ${session}`,
+        })
         .end((err, res) => {
           if (err) return done(err);
 
@@ -113,7 +116,125 @@ describe('/website', () => {
         });
     });
   });
+  describe('DELETE /website/:id', () => {
+    let id;
+    beforeEach((done) => {
+      request(app)
+        .post('/website')
+        .send({
+          name: 'easy',
+          url: 'http://easy.com',
+        })
+        .set({
+          Authorization: `Bearer ${session}`,
+        })
+        .type('form')
+        .end((err, res) => {
+          if (err) return done(err);
+          ({ id } = res.body);
+          done();
+        });
+    });
+    afterEach((done) => {
+      WebsiteModel.destroy({
+        where: {},
+      })
+        .then(() => {
+          done();
+        })
+        .catch((e) => {
+          done(e);
+        });
+    });
 
+    it('should return 200 status code', (done) => {
+      request(app)
+        .delete(`/website/${id}`)
+        .set({
+          Authorization: `Bearer ${session}`,
+        })
+        .expect(200, done);
+    });
+    it('should return true as a response text', (done) => {
+      request(app)
+        .delete(`/website/${id}`)
+        .set({
+          Authorization: `Bearer ${session}`,
+        })
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body).to.be.true;
+          done();
+        });
+    });
+    it('should error', (done) => {
+      request(app)
+        .delete('/website/id')
+        .set({
+          Authorization: `Bearer ${session}`,
+        })
+        .expect(400, done);
+    });
+  });
+  describe('GET /website/:start', () => {
+    beforeEach((done) => {
+      request(app)
+        .post('/website')
+        .send({
+          name: 'easy',
+          url: 'http://easy.com',
+        })
+        .set({
+          Authorization: `Bearer ${session}`,
+        })
+        .type('form')
+        .expect(200, done);
+    });
+    afterEach((done) => {
+      WebsiteModel.destroy({
+        where: {},
+      })
+        .then(() => {
+          done();
+        })
+        .catch((e) => {
+          done(e);
+        });
+    });
+
+    it('should return 200 status code', (done) => {
+      request(app)
+        .get('/website/0')
+        .set({
+          Authorization: `Bearer ${session}`,
+        })
+        .expect(200, done);
+    });
+    it('should return array of websites', (done) => {
+      request(app)
+        .get('/website/0')
+        .set({
+          Authorization: `Bearer ${session}`,
+        })
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          expect(res.body).to.be.an('array').with.length(1);
+          done();
+        });
+    });
+    it('should error with 400 status code', (done) => {
+      request(app)
+        .get('/website/id')
+        .set({
+          Authorization: `Bearer ${session}`,
+        })
+        .expect(400, done);
+    });
+  });
   describe('POST /website', () => {
     after((done) => {
       WebsiteModel.destroy({
@@ -142,7 +263,9 @@ describe('/website', () => {
       request(app)
         .post('/website')
         .send({ name: 'easy', url: 'http://easy.com' })
-        .set({ Authorization: session })
+        .set({
+          Authorization: `Bearer ${session}`,
+        })
         .type('form')
         .expect(200, done);
     });
@@ -155,7 +278,7 @@ describe('/website', () => {
           url: 'http://easy.com',
         })
         .set({
-          Authorization: session,
+          Authorization: `Bearer ${session}`,
         })
         .type('form')
         .expect(400, done);
@@ -177,7 +300,7 @@ describe('/website', () => {
         .post('/website')
         .send({ name: 'easy', url: 'easy.com' })
         .set({
-          Authorization: session,
+          Authorization: `Bearer ${session}`,
         })
         .type('form')
         .expect(400, done);
@@ -187,7 +310,7 @@ describe('/website', () => {
       request(app)
         .post('/website')
         .set({
-          Authorization: session,
+          Authorization: `Bearer ${session}`,
         })
         .type('form')
         .expect(400, done);
