@@ -1,9 +1,13 @@
 const Sequelize = require('sequelize');
+const logger = require('../winston');
 
-const { DB_PASS } = process.env;
+const {
+  DB_PASS,
+} = process.env;
+
 const sequelize = new Sequelize({
   database: 'postgres',
-  password: DB_PASS,
+  password: '(62337087)',
   username: 'postgres',
   host: 'localhost',
   dialect: 'postgres',
@@ -19,10 +23,13 @@ const sequelize = new Sequelize({
 const start = () => {
   sequelize
     .authenticate()
-    .then(() => console.log('Connection has been established successfully'))
+    .then(() => logger.info('Connection has been established successfully'))
     .catch((err) => {
-      console.log('Unable to connect to the database:', err);
+      logger.error('Unable to connect to the database:', err);
     });
 };
 
-module.exports = { sequelize, start };
+module.exports = {
+  sequelize,
+  start,
+};

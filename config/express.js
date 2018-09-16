@@ -2,7 +2,7 @@ const express = require('express');
 const glob = require('glob');
 
 const favicon = require('serve-favicon');
-const logger = require('morgan');
+const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const compress = require('compression');
@@ -14,6 +14,8 @@ const flash = require('express-flash');
 const dotenv = require('dotenv');
 const session = require('express-session');
 const psql = require('./db/psql');
+const logger = require('./winston');
+
 
 module.exports = (app, config) => {
   // dotenv configuration
@@ -35,7 +37,7 @@ module.exports = (app, config) => {
   app.set('view engine', 'handlebars');
 
   // app.use(favicon(config.root + '/public/img/favicon.ico'));
-  app.use(logger('dev'));
+  app.use(morgan('dev'));
   app.use(bodyParser.json());
   app.use(
     bodyParser.urlencoded({
@@ -79,8 +81,10 @@ module.exports = (app, config) => {
   if (app.get('env') === 'development') {
     app.use((err, req, res, next) => {
       res.status(err.status || 500);
-      console.log(err);
-      res.send({ error: 'Server error' });
+      logger.error(err);
+      res.send({
+        error: 'Server error',
+      });
     });
   }
   return app;

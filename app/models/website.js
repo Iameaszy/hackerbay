@@ -1,10 +1,11 @@
 const Sequelize = require('sequelize');
-const { sequelize } = require('../../config/db/psql.js');
+const {
+  sequelize,
+} = require('../../config/db/psql.js');
 
 
 const WebsiteModel = sequelize.define(
-  'website',
-  {
+  'website', {
     name: {
       type: Sequelize.STRING,
       unique: true,
@@ -29,4 +30,6 @@ const WebsiteModel = sequelize.define(
     },
   },
 );
-module.exports = { WebsiteModel };
+module.exports = {
+  WebsiteModel,
+};

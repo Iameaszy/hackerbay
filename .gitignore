@@ -1,7 +1,7 @@
-tasks/node_modules/
-tasks/.env
-tasks/.nyc_output
-tasks/coverage
-tasks/*.lcov
-coverage
+node_modules/
+.env
+*.log
+.yo-rc.json
+.bowerrc
+*.lcov
 .nyc_output
