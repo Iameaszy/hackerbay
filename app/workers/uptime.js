@@ -1,5 +1,8 @@
 const request = require('request');
 const cron = require('node-cron');
+const dotEnv = require('dotenv');
+
+dotEnv.config();
 const {
   WebsiteModel,
 } = require('../models/index');
@@ -23,7 +26,7 @@ cron.schedule('* * * * *', async () => {
       timeout: 10000,
     }, (err, res) => {
       if (err) {
-        return logger.error('request error:', err.code);
+        return logger.error(err.code);
       }
       if (res.statusCode !== 200) {
         website.status = 'offline';

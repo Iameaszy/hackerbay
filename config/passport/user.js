@@ -21,6 +21,8 @@ class Passport {
       secretOrKey: SECRET,
     };
     this.jwt();
+    this.register();
+    this.login();
   }
 
   jwt() {
@@ -50,7 +52,6 @@ class Passport {
       },
       async (reqEmail, password, done) => {
         const email = reqEmail.toLowerCase();
-
         if (!validator.isEmail(email)) {
           return done(null, false, {
             message: 'Invalid email',
