@@ -1,22 +1,46 @@
 const request = require('supertest');
 const chai = require('chai');
-const { UserModel, WebsiteModel } = require('../../app/models/index');
-const { app } = require('../../app');
+const {
+  UserModel,
+  WebsiteModel,
+} = require('../../app/models/index');
+const {
+  app,
+} = require('../../app');
 
-const { expect } = chai;
+const {
+  expect,
+} = chai;
+
 describe('/website', () => {
   let session;
   before((done) => {
     request(app)
       .post('/user/signup')
       .type('form')
-      .send({ email: 'easyclick05@gmail.com', password: 'abcdefgh' })
+      .send({
+        email: 'easyclick05@gmail.com',
+        password: 'abcdefgh',
+      })
       .end((err, res) => {
         if (err) {
           return done(err);
         }
-        ({ session } = res.body);
+        ({
+          session,
+        } = res.body);
         done();
+      });
+  });
+  after((done) => {
+    UserModel.destroy({
+      where: {},
+    })
+      .then(() => {
+        done();
+      })
+      .catch((e) => {
+        done(e);
       });
   });
   describe('GET /method should return array', () => {
@@ -33,6 +57,7 @@ describe('/website', () => {
         .type('form')
         .expect(200, done);
     });
+
     after((done) => {
       WebsiteModel.destroy({
         where: {},
@@ -44,6 +69,7 @@ describe('/website', () => {
           done(e);
         });
     });
+
     it('with length 1', (done) => {
       request(app)
         .get('/website')
@@ -131,7 +157,9 @@ describe('/website', () => {
         .type('form')
         .end((err, res) => {
           if (err) return done(err);
-          ({ id } = res.body);
+          ({
+            id,
+          } = res.body);
           done();
         });
     });
@@ -262,7 +290,10 @@ describe('/website', () => {
     it('should return 200 status code', (done) => {
       request(app)
         .post('/website')
-        .send({ name: 'easy', url: 'http://easy.com' })
+        .send({
+          name: 'easy',
+          url: 'http://easy.com',
+        })
         .set({
           Authorization: `Bearer ${session}`,
         })
@@ -298,7 +329,10 @@ describe('/website', () => {
     it('should return 400 status code with invalid url as error message', (done) => {
       request(app)
         .post('/website')
-        .send({ name: 'easy', url: 'easy.com' })
+        .send({
+          name: 'easy',
+          url: 'easy.com',
+        })
         .set({
           Authorization: `Bearer ${session}`,
         })

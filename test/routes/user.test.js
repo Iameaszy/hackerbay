@@ -1,10 +1,16 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../../app');
-const { UserModel } = require('../../app/models/index');
-const { sequelize } = require('../../config/db/psql');
+const {
+  UserModel,
+} = require('../../app/models/index');
+const {
+  sequelize,
+} = require('../../config/db/psql');
 
-const { expect } = chai;
+const {
+  expect,
+} = chai;
 chai.use(chaiHttp);
 
 after(() => {
@@ -17,7 +23,9 @@ beforeEach((done) => {
 
 describe('/user/signup', () => {
   before((done) => {
-    UserModel.destroy({ where: {} })
+    UserModel.destroy({
+      where: {},
+    })
       .then(() => {
         done();
       })
@@ -31,7 +39,10 @@ describe('/user/signup', () => {
       .request(app.app)
       .post('/user/signup')
       .type('form')
-      .send({ email: 'easyclick05@gmail.com', password: 'abcdefgh' })
+      .send({
+        email: 'easyclick05@gmail.com',
+        password: 'abcdefgh',
+      })
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res.status).to.equals(200);
@@ -45,7 +56,10 @@ describe('/user/signup', () => {
       .request(app.app)
       .post('/user/signup')
       .type('form')
-      .send({ email: 'easyclick05@gmail.com', password: 'abcdefgh' })
+      .send({
+        email: 'easyclick05@gmail.com',
+        password: 'abcdefgh',
+      })
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res.status).to.equals(400);
@@ -59,7 +73,9 @@ describe('/user/signup', () => {
 
 describe('/user/signup with invalid data', () => {
   beforeEach((done) => {
-    UserModel.destroy({ where: {} })
+    UserModel.destroy({
+      where: {},
+    })
       .then(() => {
         done();
       })
@@ -73,7 +89,10 @@ describe('/user/signup with invalid data', () => {
       .request(app.app)
       .post('/user/signup')
       .type('form')
-      .send({ email: 'easyclick@gmail', password: '62337087' })
+      .send({
+        email: 'easyclick@gmail',
+        password: '62337087',
+      })
       .end((err, res) => {
         expect(err).to.be.throw;
         expect(res.body)
@@ -115,14 +134,19 @@ describe('/user/login', () => {
       .request(app.app)
       .post('/user/signup')
       .type('form')
-      .send({ email: 'easyclick05@gmail.com', password: 'abcdefgh' })
+      .send({
+        email: 'easyclick05@gmail.com',
+        password: 'abcdefgh',
+      })
       .then(() => done())
       .catch((err) => {
         done(err);
       });
   });
   after((done) => {
-    UserModel.destroy({ where: {} })
+    UserModel.destroy({
+      where: {},
+    })
       .then((data) => {
         done();
       })
@@ -136,7 +160,10 @@ describe('/user/login', () => {
       .request(app.app)
       .post('/user/login')
       .type('form')
-      .send({ email: 'easyclick05@gmail.com', password: 'abcdefgh' })
+      .send({
+        email: 'easyclick05@gmail.com',
+        password: 'abcdefgh',
+      })
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res.status).to.equals(200);
@@ -149,7 +176,10 @@ describe('/user/login', () => {
       .request(app.app)
       .post('/user/login')
       .type('form')
-      .send({ email: 'easyclick05@gmail.com', password: 'abcdefgh' })
+      .send({
+        email: 'easyclick05@gmail.com',
+        password: 'abcdefgh',
+      })
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res.body)
@@ -163,7 +193,10 @@ describe('/user/login', () => {
       .request(app.app)
       .post('/user/login')
       .type('form')
-      .send({ email: 'easyclick05@gmail.com', password: 'abcdefgh' })
+      .send({
+        email: 'easyclick05@gmail.com',
+        password: 'abcdefgh',
+      })
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res.status).to.equal(200);
@@ -175,7 +208,10 @@ describe('/user/login', () => {
       .request(app.app)
       .post('/user/login')
       .type('form')
-      .send({ email: 'easyclick0@gmail.com', password: 'abcdefgh' })
+      .send({
+        email: 'easyclick0@gmail.com',
+        password: 'abcdefgh',
+      })
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res.status).to.equal(400);
@@ -187,7 +223,10 @@ describe('/user/login', () => {
       .request(app.app)
       .post('/user/login')
       .type('form')
-      .send({ email: 'easyclick0@gmail.com', password: 'abcdefgh' })
+      .send({
+        email: 'easyclick0@gmail.com',
+        password: 'abcdefgh',
+      })
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res.body)
@@ -201,7 +240,10 @@ describe('/user/login', () => {
       .request(app.app)
       .post('/user/login')
       .type('form')
-      .send({ email: 'easyclick05@gmail.com', password: 'abcde' })
+      .send({
+        email: 'easyclick05@gmail.com',
+        password: 'abcde',
+      })
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res.body)
@@ -215,7 +257,9 @@ describe('/user/login', () => {
       .request(app.app)
       .post('/user/login')
       .type('form')
-      .send({ email: 'easyclick05@gmail.com' })
+      .send({
+        email: 'easyclick05@gmail.com',
+      })
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res.body)

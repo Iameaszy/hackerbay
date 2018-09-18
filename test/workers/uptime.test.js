@@ -14,9 +14,6 @@ const {
   UserModel,
 } = require('../../app/models/index');
 
-beforeEach((done) => {
-  setTimeout(() => done(), 500);
-});
 describe('Uptime', () => {
   let session;
   let websites;

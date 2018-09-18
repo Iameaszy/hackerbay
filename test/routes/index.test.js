@@ -3,9 +3,12 @@ const chaiHttp = require('chai-http');
 
 const app = require('./../../app');
 
-const { expect } = chai;
+const {
+  expect,
+} = chai;
 chai.use(chaiHttp);
 /** *********************** */
+
 describe('get /', () => {
   it('should have 200 response status', async () => {
     let res;
@@ -38,7 +41,9 @@ describe('post /data', () => {
         .request(app.app)
         .post('/data')
         .type('form')
-        .send({ data: 'Any string' });
+        .send({
+          data: 'Any string',
+        });
     } catch (e) {
       expect(e).to.be.null;
     }
@@ -51,7 +56,9 @@ describe('post /data', () => {
         .request(app.app)
         .post('/data')
         .type('form')
-        .send({ data: 'Any string' });
+        .send({
+          data: 'Any string',
+        });
     } catch (e) {
       expect(e).to.be.null;
     }
@@ -96,7 +103,9 @@ describe('get /data', () => {
           .request(app.app)
           .post('/data')
           .type('form')
-          .send({ data: 'Any string' });
+          .send({
+            data: 'Any string',
+          });
       } catch (e) {
         return console.log(e);
       }
