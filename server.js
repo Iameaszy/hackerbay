@@ -1,15 +1,16 @@
 const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
+const logger = require('./config/winston');
+const uptime = require('./app/workers/uptime.js');
 
 
 if (cluster.isMaster) {
-  console.log(`master worker ${process.pid} is started`);
-  const worker = cluster.fork();
+  logger.info(`master worker ${process.pid} is started`);
+  cluster.fork();
 
   require('./app');
 } else {
   setTimeout(() => {
-    require('./app/workers/uptime.js');
-    console.log(`worker ${process.pid} is started`);
+    uptime();
+    logger.info(`worker ${process.pid} is started`);
   }, 5000);
 }

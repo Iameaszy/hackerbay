@@ -8,7 +8,8 @@ const {
 } = require('../models/index');
 const logger = require('../../config/winston');
 
-cron.schedule('* * * * *', async () => {
+
+module.exports = cron.schedule('* * * * *', async () => {
   let websites;
   try {
     websites = await WebsiteModel.findAll({
@@ -19,6 +20,7 @@ cron.schedule('* * * * *', async () => {
     return logger.error(e);
   }
   logger.info('.............................');
+  console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
   websites.forEach((website) => {
     request.get({
       url: website.url,
