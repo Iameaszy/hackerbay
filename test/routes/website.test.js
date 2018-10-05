@@ -21,6 +21,7 @@ describe('/website', () => {
       .send({
         email: 'easyclick05@gmail.com',
         password: 'abcdefgh',
+        phone: '+2349036510690',
       })
       .end((err, res) => {
         if (err) {

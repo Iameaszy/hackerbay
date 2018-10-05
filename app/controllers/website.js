@@ -23,6 +23,7 @@ router.use((req, res, next) => {
         error: info.message,
       });
     }
+    req.user = user;
     next();
   })(req, res, next);
 });
@@ -141,6 +142,7 @@ router.post('/', async (req, res, next) => {
       name,
       url,
       status: 'online',
+      userid: req.user ? req.user.id : null,
     });
     website = await website.save();
     logger.info('website saved');

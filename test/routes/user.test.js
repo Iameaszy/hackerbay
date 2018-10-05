@@ -42,9 +42,12 @@ describe('/user/signup', () => {
       .send({
         email: 'easyclick05@gmail.com',
         password: 'abcdefgh',
+        phone: '+2349036510690',
       })
       .end((err, res) => {
-        expect(err).to.be.null;
+        if (err) {
+          return done(err);
+        }
         expect(res.status).to.equals(200);
         expect(res.body.session).to.be.a('string');
         done();
@@ -59,9 +62,12 @@ describe('/user/signup', () => {
       .send({
         email: 'easyclick05@gmail.com',
         password: 'abcdefgh',
+        phone: '+2349036510690',
       })
       .end((err, res) => {
-        expect(err).to.be.null;
+        if (err) {
+          return done(err);
+        }
         expect(res.status).to.equals(400);
         expect(res.body)
           .to.have.property('error')
@@ -92,9 +98,12 @@ describe('/user/signup with invalid data', () => {
       .send({
         email: 'easyclick@gmail',
         password: '62337087',
+        phone: '+2349036510690',
       })
       .end((err, res) => {
-        expect(err).to.be.throw;
+        if (err) {
+          return done(err);
+        }
         expect(res.body)
           .to.have.property('error')
           .to.equals('Invalid email');
@@ -108,7 +117,9 @@ describe('/user/signup with invalid data', () => {
       .post('/user/signup')
       .type('form')
       .end((err, res) => {
-        expect(err).to.be.null;
+        if (err) {
+          return done(err);
+        }
         expect(res.status).to.equals(400);
         done();
       });
@@ -119,7 +130,9 @@ describe('/user/signup with invalid data', () => {
       .post('/user/signup')
       .type('form')
       .end((err, res) => {
-        expect(err).to.be.null;
+        if (err) {
+          return done(err);
+        }
         expect(res.body)
           .to.have.property('error')
           .to.equals('Missing credentials');
@@ -137,6 +150,7 @@ describe('/user/login', () => {
       .send({
         email: 'easyclick05@gmail.com',
         password: 'abcdefgh',
+        phone: '+2349036510690',
       })
       .then(() => done())
       .catch((err) => {
@@ -165,7 +179,9 @@ describe('/user/login', () => {
         password: 'abcdefgh',
       })
       .end((err, res) => {
-        expect(err).to.be.null;
+        if (err) {
+          return done(err);
+        }
         expect(res.status).to.equals(200);
         done();
       });
@@ -181,7 +197,9 @@ describe('/user/login', () => {
         password: 'abcdefgh',
       })
       .end((err, res) => {
-        expect(err).to.be.null;
+        if (err) {
+          return done(err);
+        }
         expect(res.body)
           .to.have.property('session')
           .to.be.a('string');
@@ -198,7 +216,9 @@ describe('/user/login', () => {
         password: 'abcdefgh',
       })
       .end((err, res) => {
-        expect(err).to.be.null;
+        if (err) {
+          return done(err);
+        }
         expect(res.status).to.equal(200);
         done();
       });
@@ -213,7 +233,9 @@ describe('/user/login', () => {
         password: 'abcdefgh',
       })
       .end((err, res) => {
-        expect(err).to.be.null;
+        if (err) {
+          return done(err);
+        }
         expect(res.status).to.equal(400);
         done();
       });
@@ -228,7 +250,9 @@ describe('/user/login', () => {
         password: 'abcdefgh',
       })
       .end((err, res) => {
-        expect(err).to.be.null;
+        if (err) {
+          return done(err);
+        }
         expect(res.body)
           .to.have.property('error')
           .to.equals('User does not exist');
@@ -245,7 +269,9 @@ describe('/user/login', () => {
         password: 'abcde',
       })
       .end((err, res) => {
-        expect(err).to.be.null;
+        if (err) {
+          return done(err);
+        }
         expect(res.body)
           .to.have.property('error')
           .to.equals('Invalid Password');
@@ -261,7 +287,9 @@ describe('/user/login', () => {
         email: 'easyclick05@gmail.com',
       })
       .end((err, res) => {
-        expect(err).to.be.null;
+        if (err) {
+          return done(err);
+        }
         expect(res.body)
           .to.have.property('error')
           .to.equals('Missing credentials');

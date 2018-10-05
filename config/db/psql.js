@@ -11,7 +11,7 @@ const sequelize = new Sequelize({
   username: 'postgres',
   host: 'localhost',
   dialect: 'postgres',
-  operatorsAliases: true,
+  operatorsAliases: false,
   pool: {
     max: 5,
     min: 0,

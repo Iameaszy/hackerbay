@@ -1,6 +1,5 @@
 const nock = require('nock');
 const request = require('supertest');
-
 const {
   expect,
 } = require('chai');
@@ -8,11 +7,11 @@ const {
 const {
   app,
 } = require('../../app');
-const uptime = require('../../app/workers/uptime');
 const {
   WebsiteModel,
   UserModel,
 } = require('../../app/models/index');
+require('../../app/workers/uptime');
 
 describe('Uptime', () => {
   let session;
@@ -24,10 +23,10 @@ describe('Uptime', () => {
       .send({
         email: 'easyclick05@gmail.com',
         password: 'abcdefgh',
+        phone: '+2349036510690',
       })
       .end((err, res) => {
         if (err) {
-          console.log(err);
           return done(err);
         }
         ({
@@ -42,7 +41,7 @@ describe('Uptime', () => {
       .post('/website')
       .send({
         name: 'easy',
-        url: 'http://easy.com',
+        url: 'http://google.com',
       })
       .set({
         Authorization: `Bearer ${session}`,

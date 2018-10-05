@@ -49,8 +49,9 @@ class Passport {
       new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password',
+        passReqToCallback: true,
       },
-      async (reqEmail, password, done) => {
+      async (req, reqEmail, password, done) => {
         const email = reqEmail.toLowerCase();
         if (!validator.isEmail(email)) {
           return done(null, false, {
@@ -74,9 +75,13 @@ class Passport {
         }
         if (!user) {
           let newUser;
+          const {
+            phone,
+          } = req.body;
           const newUserBuild = UserModel.build({
             email,
             password,
+            phone,
           });
           try {
             newUser = await newUserBuild.save();

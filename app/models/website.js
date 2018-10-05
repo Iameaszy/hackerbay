@@ -21,7 +21,7 @@ const WebsiteModel = sequelize.define(
       allowNull: false,
       defaultValue: 'online',
     },
-    userId: {
+    userid: {
       type: Sequelize.INTEGER,
       references: {
         model: 'users',

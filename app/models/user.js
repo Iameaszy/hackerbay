@@ -1,11 +1,12 @@
 const bcrypt = require('bcrypt');
 const Sequelize = require('sequelize');
-const { sequelize } = require('../../config/db/psql.js');
+const {
+  sequelize,
+} = require('../../config/db/psql.js');
 
 
 const UserModel = sequelize.define(
-  'user',
-  {
+  'user', {
     email: {
       type: Sequelize.STRING,
       unique: true,
@@ -16,6 +17,10 @@ const UserModel = sequelize.define(
     },
     password: {
       type: Sequelize.STRING,
+    },
+    phone: {
+      type: Sequelize.STRING,
+      allowNull: false,
     },
   },
 );
@@ -52,4 +57,6 @@ UserModel.beforeCreate(
   }),
 );
 
-module.exports = { UserModel };
+module.exports = {
+  UserModel,
+};

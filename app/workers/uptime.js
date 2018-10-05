@@ -1,12 +1,12 @@
 const request = require('request');
 const cron = require('node-cron');
-const dotEnv = require('dotenv');
 
-dotEnv.config();
 const {
   WebsiteModel,
+  UserModel,
 } = require('../models/index');
 const logger = require('../../config/winston');
+const twilio = require('./twilio');
 
 
 module.exports = cron.schedule('* * * * *', async () => {
@@ -20,8 +20,10 @@ module.exports = cron.schedule('* * * * *', async () => {
     return logger.error(e);
   }
   logger.info('.............................');
-  console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
   websites.forEach((website) => {
+    const {
+      status,
+    } = website;
     request.get({
       url: website.url,
       method: 'GET',
@@ -34,6 +36,18 @@ module.exports = cron.schedule('* * * * *', async () => {
         website.status = 'offline';
       } else {
         website.status = 'online';
+      }
+      if (status !== website.status) {
+        UserModel.findOne({
+          where: {
+            id: website.userid,
+          },
+        }).then((user) => {
+          twilio.send(`Your website ${website.url} is currently down, please check!`, user.phone);
+          logger.info(`user with email ${user.email} notified about its website ${website.url}`);
+        }).catch((err) => {
+          logger.error(`${new Date()} trello: ${err}`);
+        });
       }
       website.save().then(() => logger.info(`website ${website.name} updated`))
         .catch(err => logger.error(`unable to update website ${website.name}`, err));
